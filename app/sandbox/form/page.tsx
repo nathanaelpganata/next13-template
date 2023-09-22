@@ -69,14 +69,14 @@ const formSchema = z.object({
 });
 
 const FormSandboxPage = () => {
-  const form = useForm({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
       notification: false,
       dob: undefined,
       drink: 'cola',
-      rating: '0',
+      rating: '4',
       color: 'black',
       dark_mode: false,
       biodata: '',
@@ -84,7 +84,7 @@ const FormSandboxPage = () => {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     toast({
       title: 'Form submitted',
       description: <pre>{JSON.stringify(data, null, 2)}</pre>,

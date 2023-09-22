@@ -154,7 +154,7 @@ const SandboxTablePage = () => {
   const { data: PostData, isLoading } = useQuery<TodoSchema[]>(['/todos']);
 
   // Changing the completed value to string to match the filter
-  const modifiedPostData = PostData?.map((post: any) => ({
+  const modifiedPostData = PostData?.map((post: TodoSchema) => ({
     ...post,
     completed: post.completed ? 'true' : 'false',
   }));

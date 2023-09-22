@@ -24,20 +24,30 @@ type DialogButtonType = {
     | null
     | undefined;
   children?: React.ReactNode;
+  isOpen?: boolean;
+  onClose?: () => void;
   mutationFn?: () => void;
 };
 
-export function DialogButton({
+export function Modal({
   buttonLabel,
   buttonVariant = 'default',
   dialogTitle,
   dialogDescription,
   dialogButtonLabel,
   children,
+  isOpen,
+  onClose,
   mutationFn,
 }: DialogButtonType) {
+  const onChange = (open: boolean) => {
+    if (!open && onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogTrigger asChild>
         <Button variant={buttonVariant}>{buttonLabel}</Button>
       </DialogTrigger>

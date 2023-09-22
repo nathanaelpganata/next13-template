@@ -6,7 +6,7 @@ import { produce } from 'immer';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type AuthStoretype = {
+type AuthStoreType = {
   isAuth: boolean;
   userId: string;
   email: string;
@@ -17,7 +17,7 @@ type AuthStoretype = {
   setRole: (role: string) => void;
 };
 
-const useAuthStoreBase = create<AuthStoretype>()(
+const useAuthStoreBase = create<AuthStoreType>()(
   persist(
     (set) => ({
       isAuth: false,
@@ -55,6 +55,6 @@ const useAuthStoreBase = create<AuthStoretype>()(
 
 const useAuthStore = createSelectorHooks(
   useAuthStoreBase
-) as typeof useAuthStoreBase & ZustandHookSelectors<AuthStoretype>;
+) as typeof useAuthStoreBase & ZustandHookSelectors<AuthStoreType>;
 
 export default useAuthStore;

@@ -7,11 +7,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { DialogButton } from '@/components/DialogButton';
 import InputForm from '@/components/forms/InputForm';
+import { Modal } from '@/components/Modal';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
+import useModalStore from '@/store/modalStore';
 
 type EditFormType = {
   username: string;
@@ -19,6 +20,19 @@ type EditFormType = {
 };
 
 const SandboxDialogPage = () => {
+  // Store initialization
+  const isOpen = useModalStore.useIsOpen();
+  const setOpen = useModalStore.useSetOpen();
+  const setClose = useModalStore.useSetClose();
+
+  // useEffect
+  React.useEffect(() => {
+    if (!isOpen) {
+      setOpen();
+    }
+  }, [isOpen, setOpen]);
+
+  // Initialization
   const router = useRouter();
   const { toast } = useToast();
 
@@ -76,7 +90,9 @@ const SandboxDialogPage = () => {
         <div className='flex flex-col gap-2'>
           <p className='text-2xl font-semibold'>Default Dialog</p>
           <div className='flex flex-row flex-wrap justify-left items-center w-full max-w-lg gap-6'>
-            <DialogButton
+            <Modal
+              // isOpen={isOpen}
+              // onClose={setClose}
               buttonLabel={'Save Changes'}
               dialogButtonLabel={'Save'}
               dialogTitle={'Are you Sure?'}
@@ -86,7 +102,7 @@ const SandboxDialogPage = () => {
                   title: 'Changes Saved',
                   description: new Date().toLocaleTimeString(),
                 });
-                router.replace('/');
+                // router.replace('/');
               }}
             />
           </div>
@@ -95,7 +111,7 @@ const SandboxDialogPage = () => {
         <div className='flex flex-col gap-2'>
           <p className='text-2xl font-semibold'>Form Dialog</p>
           <div className='flex flex-row flex-wrap justify-left items-center w-full max-w-lg gap-6'>
-            <DialogButton
+            <Modal
               buttonLabel={'Edit Username'}
               dialogTitle={'Username Change'}
               dialogDescription={
@@ -122,7 +138,7 @@ const SandboxDialogPage = () => {
                   <Button type='submit'>Submit</Button>
                 </form>
               </Form>
-            </DialogButton>
+            </Modal>
           </div>
         </div>
       </div>
